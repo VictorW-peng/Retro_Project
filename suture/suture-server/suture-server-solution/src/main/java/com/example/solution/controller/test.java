@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @RestController
 public class test {
-    @Autowired(required = false)
+    @Resource
     private UserMapper userMapper;
     @RequestMapping("/test")
     public String test1(){

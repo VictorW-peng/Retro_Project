@@ -12,7 +12,14 @@ import java.util.Map;
  */
 public interface UserMapper {
 
-    int insertUser();
+    int insertUser(User user);
 
     List<User> selectAllUser();
+
+    User selectUserByName(String username);
+
+
+
+
+
 }

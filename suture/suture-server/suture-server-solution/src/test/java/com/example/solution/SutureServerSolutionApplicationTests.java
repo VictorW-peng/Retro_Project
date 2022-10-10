@@ -27,4 +27,11 @@ class SutureServerSolutionApplicationTests {
 		List<User> users = userMapper.selectAllUser();
 		users.forEach(user -> System.out.println(user));
 	}
+	@Test
+	void test2() throws SQLException {
+		User user = new User("a" ,"1");
+		System.out.println(user);
+		userMapper.insertUser(user);
+		System.out.println(user);
+	}
 }

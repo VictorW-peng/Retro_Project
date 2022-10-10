@@ -8,6 +8,13 @@
     <select id="selectAllUser" resultType="User">
         select * from sys_user
     </select>
+    <!--(user_id, user_name , user_password , salt ,email ,phone)-->
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId" >
+        insert into sys_user
+        values (null, #{userName} , #{userPassword}, #{salt} , #{email}, #{phone})
+    </insert>
 
-
+    <select id="selectUserByName" resultType="User">
+        select * from sys_user where user_name = #{username}
+    </select>
 </mapper>

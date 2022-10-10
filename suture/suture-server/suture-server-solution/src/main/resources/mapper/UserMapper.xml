@@ -11,10 +11,17 @@
     <!--(user_id, user_name , user_password , salt ,email ,phone)-->
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId" >
         insert into sys_user
-        values (null, #{userName} , #{userPassword}, #{salt} , #{email}, #{phone})
+        values (null, #{userName} , #{userPassword}, #{salt} , #{email}, #{phone},#{gender} , #{isDelete}, #{phone} ,#{creatUser}, #{creatTime}, #{modifiedUser}, #{modifiedTime})
     </insert>
 
     <select id="selectUserByName" resultType="User">
         select * from sys_user where user_name = #{username}
     </select>
+
+    <update id="updatePasswordById">
+        UPDATE sys_user SET password = #{password}, modified_user = #{modifiedUser}, modified_time = #{modifiedTime} WHERE user_id = #{userid}
+    </update>
+
+
+
 </mapper>

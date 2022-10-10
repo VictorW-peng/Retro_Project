@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>suture-server-solution</artifactId>
+	<artifactId>solution</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>suture-server-solution</name>
 	<description>suture-server-solution</description>

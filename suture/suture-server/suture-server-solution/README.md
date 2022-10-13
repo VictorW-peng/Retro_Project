@@ -1,5 +1,9 @@
 # 项目技术
-
+    JDK 11
+    SpringBoot
+    MySQL
+    Mybatis
+    
 
 
 
@@ -13,6 +17,7 @@
     用户管理，用户登录注册，用户信息维护。登录时进行图形验证码校验，短信验证码校验等。
     项目启动为登录页面，然后进入主页面
     日志管理
+    Excel\Mail\FTP\FastJson
 ## 随想功能
     推荐功能
     
@@ -20,7 +25,7 @@
 # 项目整合内容
     ORM Mybatis 
     日志 log4j2
-    接口 swagger2  使用http://localhost:8088/swagger-ui.html访问
+    接口 swagger2  使用   http://localhost:8088/swagger-ui.html   访问
     
 
 

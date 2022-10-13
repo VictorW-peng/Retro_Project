@@ -4,12 +4,13 @@
  */
 package com.example.solution.config;
 
-import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -18,41 +19,28 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
     /**
-     * web端
-     *  给命名然后过滤接口。
-     * @return
+     * @Description:swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
      */
     @Bean
-    public Docket webApiConfig(){
-        return new Docket(DocumentationType.SWAGGER_2).groupName("webApi")
-                .apiInfo(webApiInfo())
-                .select()
-                .paths(Predicates.and(PathSelectors.regex("/api/.*"))).build();
+    public Docket createRestApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("serverAPI")
+                .apiInfo(apiInfo()).select()
+                // 配置到项目的controller包
+                .apis(RequestHandlerSelectors.basePackage("com.example.solution.controller"))
+                .paths(PathSelectors.any()).build();
     }
 
     /**
-     * 后台管理端
-     * @return
+     * @Description: 构建api文档的信息
      */
-    @Bean
-    public Docket adminApiConfig(){
-        return new Docket(DocumentationType.SWAGGER_2).groupName("adminApi")
-                .apiInfo(adminApiInfo())
-                .select()
-                .paths(Predicates.and(PathSelectors.regex("/admin/.*"))).build();
-    }
-
-    private ApiInfo webApiInfo(){
-        return new ApiInfoBuilder().title("网站的API文档")
-                .description("本文档描述了潇雷视频网的api接口定义")
-                .version("1.0")
-                .build();
-    }
-    private ApiInfo adminApiInfo(){
-        return new ApiInfoBuilder().title("后台管理系统的API文档")
-                .description("本文档描述了潇雷视频网的后台管理端api接口定义")
-                .version("1.0")
-                .build();
+    private ApiInfo apiInfo() {
+        return new ApiInfoBuilder()
+                .title("Extremely suture system")
+                .description("This is a study project, it assembles many function")
+                .contact(new Contact("william", "xxx.com网站", "3159814788@qq.com"))
+                // 定义版本号
+                .version("版本号:0.0.1").build();
     }
 
 }

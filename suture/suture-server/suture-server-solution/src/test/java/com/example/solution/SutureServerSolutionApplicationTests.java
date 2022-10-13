@@ -2,6 +2,7 @@ package com.example.solution;
 
 import com.example.solution.dao.UserMapper;
 import com.example.solution.entity.User;
+import com.example.solution.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,9 @@ class SutureServerSolutionApplicationTests {
 
 	@Resource
 	private UserMapper userMapper;
+
+	@Resource
+	private UserService userService;
 	@Test
 	void contextLoads() throws SQLException {
 		System.out.println(dataSource.getConnection());
@@ -33,5 +37,12 @@ class SutureServerSolutionApplicationTests {
 		System.out.println(user);
 		userMapper.insertUser(user);
 		System.out.println(user);
+	}
+	@Test
+	void test3() throws SQLException {
+		User user =userMapper.selectUserByName("wp");
+		System.out.println(user);
+
+		System.out.println(userService.findUserByName("wp"));
 	}
 }

@@ -1,6 +1,7 @@
 package com.example.solution.dao;
 
 import com.example.solution.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,6 @@ public interface UserMapper {
 
     Integer updatePasswordById(Integer userid , String password , String modifiedUser, Date modifiedTime);
 
-
+    void insertManyUser(@Param("users") List<User> users);
 
 }

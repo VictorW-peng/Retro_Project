@@ -8,9 +8,12 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -42,5 +45,18 @@ public class UserController {
     })
     public User findUserByName(String userName){
         return userService.findUserByName(userName);
+    }
+
+    @PostMapping("/Login")
+    public boolean login (HttpServletRequest request , HttpServletResponse response){
+        boolean isExist = false;
+        String userName = request.getParameter("username");
+        String password = request.getParameter("password");
+        User user = userService.findUserByName(userName);
+        if(user.getUserPassword().equals(password)){
+            isExist = true;
+        }
+
+        return isExist;
     }
 }

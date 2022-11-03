@@ -25,7 +25,8 @@ public class SwaggerConfig {
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName("serverAPI")
-                .apiInfo(apiInfo()).select()
+                .apiInfo(apiInfo())
+                .select()
                 // 配置到项目的controller包
                 .apis(RequestHandlerSelectors.basePackage("com.example.solution.controller"))
                 .paths(PathSelectors.any()).build();

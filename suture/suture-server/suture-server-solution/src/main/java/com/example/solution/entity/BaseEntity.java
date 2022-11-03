@@ -5,15 +5,14 @@
 package com.example.solution.entity;
 
 import lombok.Data;
-
 import java.util.Date;
 @Data
 //公共字段设置
 public class BaseEntity {
 
-    private String creatUser;
+    private String createUser;
 
-    private Date creatTime;
+    private Date createTime;
 
     private String modifiedUser;
 

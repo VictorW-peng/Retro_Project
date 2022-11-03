@@ -6,4 +6,5 @@ package com.example.core.exception;
  * @description:
  */
 public class SutureException {
+
 }

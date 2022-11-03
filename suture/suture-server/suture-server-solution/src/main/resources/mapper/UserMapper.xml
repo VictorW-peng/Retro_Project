@@ -11,7 +11,7 @@
     <!--(user_id, user_name , user_password , salt ,email ,phone)-->
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId" >
         insert into sys_user
-        values (null, #{userName} , #{userPassword}, #{salt} , #{email}, #{phone},#{gender} , #{isDelete}, #{phone} ,#{creatUser}, #{creatTime}, #{modifiedUser}, #{modifiedTime})
+        values (null, #{userName} , #{userPassword}, #{salt} , #{email}, #{phone},#{gender} , #{phone} ,#{creatUser}, #{creatTime}, #{modifiedUser}, #{modifiedTime})
     </insert>
 
     <select id="selectUserByName" resultType="User">
@@ -22,6 +22,16 @@
         UPDATE sys_user SET password = #{password}, modified_user = #{modifiedUser}, modified_time = #{modifiedTime} WHERE user_id = #{userid}
     </update>
 
+    <!--批量添加-->
+    <insert id="insertManyUser">
+        insert into sys_user values
+        <foreach collection="users" item="user" separator=",">
+            (null,#{user.userName},#{user.userPassword}, #{user.salt} ,
+             #{user.email}, #{user.phone},#{user.gender} ,
+             #{user.phone} ,#{user.creatUser}, #{user.creatTime},
+             #{user.modifiedUser}, #{user.modifiedTime})
+        </foreach>
+    </insert>
 
 
 </mapper>

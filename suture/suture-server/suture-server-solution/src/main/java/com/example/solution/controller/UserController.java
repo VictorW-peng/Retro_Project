@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,15 +40,15 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(value = "用户名" ,name = "userName" ,paramType = "String")
     })
-    public User findUserByName(String userName){
+    public User findUserByName(@RequestParam("userName") String userName){
         return userService.findUserByName(userName);
     }
 
     @PostMapping("/Login")
-    public boolean login (HttpServletRequest request , HttpServletResponse response){
+    public boolean login (@RequestParam("userName") String userName , @RequestParam("passWord") String passWord){
         boolean isExist = false;
-        String userName = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username = userName;
+        String password = passWord;
         User user = userService.findUserByName(userName);
         if(user.getUserPassword().equals(password)){
             isExist = true;

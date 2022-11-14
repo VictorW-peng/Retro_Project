@@ -27,4 +27,6 @@ public interface UserService {
      * @return
      */
     public User findUserByName(String userName);
+
+    public boolean insertUserBatch(List<User> users);
 }

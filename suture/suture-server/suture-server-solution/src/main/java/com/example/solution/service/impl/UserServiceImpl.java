@@ -28,4 +28,17 @@ public class UserServiceImpl implements UserService {
     public User findUserByName(String userName){
         return userMapper.selectUserByName(userName);
     }
+
+    @Override
+    public boolean insertUserBatch(List<User> users){
+        List<User> oldUsers = userMapper.selectAllUser();
+        int oldCount = oldUsers.size();
+        userMapper.insertManyUser(users);
+        List<User> newUsers = userMapper.selectAllUser();
+        int newCount = newUsers.size();
+        if(newCount == oldCount + users.size()){
+            return true;
+        }
+        return false;
+    }
 }

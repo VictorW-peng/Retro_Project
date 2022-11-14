@@ -56,7 +56,6 @@ public class UserController {
         if(user.getUserPassword().equals(password)){
             isExist = true;
         }
-
         return isExist;
     }
 }

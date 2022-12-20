@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 @SpringBootTest
@@ -45,4 +46,5 @@ class SutureServerSolutionApplicationTests {
 
 		System.out.println(userService.findUserByName("wp"));
 	}
+
 }

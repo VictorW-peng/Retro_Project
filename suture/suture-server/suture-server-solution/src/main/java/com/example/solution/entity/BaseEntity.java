@@ -1,21 +1,25 @@
-/**
- * @author William.Patrick
- * @data 2022/10/10 22:49
- */
 package com.example.solution.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
 import java.util.Date;
+
+/**
+ * 公共审计字段。
+ *
+ * @author William.Patrick
+ */
 @Data
-//公共字段设置
 public class BaseEntity {
 
     private String createUser;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date createTime;
 
     private String modifiedUser;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date modifiedTime;
-
 }

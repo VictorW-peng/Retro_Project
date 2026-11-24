@@ -1,37 +1,64 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.solution.dao.UserMapper">
 
-    <select id="selectAllUser" resultType="User">
-        select * from sys_user
-    </select>
-    <!--(user_id, user_name , user_password , salt ,email ,phone)-->
-    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId" >
-        insert into sys_user
-        values (null, #{userName} , #{userPassword}, #{salt} , #{email}, #{phone},#{gender} , #{phone} ,#{creatUser}, #{creatTime}, #{modifiedUser}, #{modifiedTime})
-    </insert>
+    <resultMap id="BaseResultMap" type="com.example.solution.entity.User">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_password" property="userPassword"/>
+        <result column="salt" property="salt"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="gender" property="gender"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_time" property="createTime"/>
+        <result column="modified_user" property="modifiedUser"/>
+        <result column="modified_time" property="modifiedTime"/>
+    </resultMap>
 
-    <select id="selectUserByName" resultType="User">
-        select * from sys_user where user_name = #{username}
+    <sql id="Base_Column_List">
+        user_id, user_name, user_password, salt, email, phone, gender,
+        create_user, create_time, modified_user, modified_time
+    </sql>
+
+    <select id="selectAllUser" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from sys_user order by user_id
     </select>
+
+    <select id="selectUserByName" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from sys_user
+        where user_name = #{userName}
+        limit 1
+    </select>
+
+    <insert id="insertUser" parameterType="com.example.solution.entity.User"
+            useGeneratedKeys="true" keyProperty="userId">
+        insert into sys_user (user_name, user_password, salt, email, phone, gender,
+                              create_user, create_time, modified_user, modified_time)
+        values (#{userName}, #{userPassword}, #{salt}, #{email}, #{phone}, #{gender},
+                #{createUser}, #{createTime}, #{modifiedUser}, #{modifiedTime})
+    </insert>
 
     <update id="updatePasswordById">
-        UPDATE sys_user SET password = #{password}, modified_user = #{modifiedUser}, modified_time = #{modifiedTime} WHERE user_id = #{userid}
+        update sys_user
+        set user_password = #{password},
+            modified_user = #{modifiedUser},
+            modified_time = #{modifiedTime}
+        where user_id = #{userId}
     </update>
 
-    <!--批量添加-->
     <insert id="insertManyUser">
-        insert into sys_user values
+        insert into sys_user (user_name, user_password, salt, email, phone, gender,
+                              create_user, create_time, modified_user, modified_time)
+        values
         <foreach collection="users" item="user" separator=",">
-            (null,#{user.userName},#{user.userPassword}, #{user.salt} ,
-             #{user.email}, #{user.phone},#{user.gender} ,
-             #{user.phone} ,#{user.creatUser}, #{user.creatTime},
-             #{user.modifiedUser}, #{user.modifiedTime})
+            (#{user.userName}, #{user.userPassword}, #{user.salt}, #{user.email}, #{user.phone}, #{user.gender},
+             #{user.createUser}, #{user.createTime}, #{user.modifiedUser}, #{user.modifiedTime})
         </foreach>
     </insert>
-
 
 </mapper>

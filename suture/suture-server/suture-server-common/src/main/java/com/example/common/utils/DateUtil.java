@@ -2,24 +2,28 @@ package com.example.common.utils;
 
 import com.example.common.object.DateField;
 import com.example.common.object.DateTime;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * @author: William.Peng
- * @date: 2022/11/29 15:18
- * @description:
+ * 日期工具。
+ *
+ * @author William.Peng
  */
-public class DateUtil {
-    static String pattern = "yyyy-MM-dd HH:mm:ss";
+public final class DateUtil {
+
+    private static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+
+    private DateUtil() {
+    }
+
     public static DateTime dateNew(Date date) {
         return new DateTime(date);
     }
 
     public static String offset(Date date, DateField dateField, int offset) {
         DateTime afterOffset = dateNew(date).offset(dateField, offset);
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-        return sdf.format(afterOffset);
+        return new SimpleDateFormat(DEFAULT_PATTERN).format(afterOffset);
     }
-
 }

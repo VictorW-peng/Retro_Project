@@ -1,0 +1,103 @@
+server:
+  port: ${SERVER_PORT:8088}
+  shutdown: graceful
+  servlet:
+    context-path: ${SERVER_CONTEXT_PATH:/}
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  error:
+    # 不向调用方暴露异常细节，异常统一由 GlobalExceptionHandler 处理
+    include-message: never
+    include-stacktrace: never
+  compression:
+    enabled: true
+    min-response-size: 2KB
+    mime-types: application/json,application/xml,text/html,text/plain
+
+spring:
+  application:
+    name: suture-server
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  mvc:
+    pathmatch:
+      # springdoc / 老接口兼容 ant 风格路径
+      matching-strategy: ant_path_matcher
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 50MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: Asia/Shanghai
+    default-property-inclusion: non_null
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+mybatis:
+  mapper-locations: classpath*:mapper/**/*.xml
+  type-aliases-package: com.example.solution.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    default-statement-timeout: 30
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_ENABLED:true}
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: ${SWAGGER_ENABLED:true}
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: method
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: when_authorized
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: ${APP_NAME:suture-server}
+    version: ${APP_VERSION:1.0.0}
+
+app:
+  cors:
+    allowed-origin-patterns:
+      - ${CORS_ALLOWED_ORIGIN_PATTERN:*}
+    allowed-methods:
+      - GET
+      - POST
+      - PUT
+      - PATCH
+      - DELETE
+      - HEAD
+      - OPTIONS
+    allowed-headers:
+      - "*"
+    exposed-headers:
+      - X-Trace-Id
+    allow-credentials: true
+    max-age: 3600
+  trace:
+    header-name: ${TRACE_HEADER_NAME:X-Trace-Id}
+
+logging:
+  config: classpath:log4j2.xml
+  level:
+    root: ${LOG_LEVEL:INFO}
+    com.example.solution: ${APP_LOG_LEVEL:INFO}

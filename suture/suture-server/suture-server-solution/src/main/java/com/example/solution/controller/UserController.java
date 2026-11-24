@@ -1,58 +1,61 @@
 package com.example.solution.controller;
 
+import com.example.common.api.ErrorCode;
+import com.example.common.api.Result;
+import com.example.common.exception.BusinessException;
 import com.example.solution.entity.User;
 import com.example.solution.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
- * @author: William.Peng
- * @date: 2022/10/13 10:26
- * @description:
+ * 用户相关接口。
+ *
+ * @author William.Peng
  */
 @RestController
-@RequestMapping("user")
-@Api(tags = "User接口")
+@RequestMapping("/user")
+@Tag(name = "用户接口")
+@Validated
+@RequiredArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
+
+    private final UserService userService;
 
     @GetMapping("/allUser")
-    @ApiOperation(value = "查询所有用户信息")
-    public List<User> showAllUser(){
-        return userService.showAllUser();
+    @Operation(summary = "查询所有用户信息")
+    public Result<List<User>> showAllUser() {
+        return Result.ok(userService.showAllUser());
     }
 
-    /**
-     * @ApiOperation 接口方法描述
-     * @ApiImplicitParams  api中参数含义描述
-     */
     @GetMapping("/UserByName")
-    @ApiOperation(value = "通过用户名查询")
-    @ApiImplicitParams({
-            @ApiImplicitParam(value = "用户名" ,name = "userName" ,paramType = "String")
-    })
-    public User findUserByName(@RequestParam("userName") String userName){
-        return userService.findUserByName(userName);
+    @Operation(summary = "通过用户名查询")
+    public Result<User> findUserByName(
+            @Parameter(description = "用户名", required = true)
+            @RequestParam("userName") @NotBlank(message = "用户名不能为空") String userName) {
+        User user = userService.findUserByName(userName);
+        if (user == null) {
+            throw new BusinessException(ErrorCode.DATA_NOT_FOUND, "用户不存在: " + userName);
+        }
+        return Result.ok(user);
     }
 
     @PostMapping("/Login")
-    public boolean login (@RequestParam("userName") String userName , @RequestParam("passWord") String passWord){
-        boolean isExist = false;
-        String username = userName;
-        String password = passWord;
-        User user = userService.findUserByName(userName);
-        if(user.getUserPassword().equals(password)){
-            isExist = true;
-        }
-        return isExist;
+    @Operation(summary = "用户登录校验")
+    public Result<Boolean> login(
+            @RequestParam("userName") @NotBlank(message = "用户名不能为空") String userName,
+            @RequestParam("passWord") @NotBlank(message = "密码不能为空") String passWord) {
+        return Result.ok(userService.login(userName, passWord));
     }
 }

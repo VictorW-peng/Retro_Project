@@ -5,12 +5,11 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
- * @author: William.Peng
- * @date: 2022/10/10 13:22
- * @description:
+ * 用户表数据访问接口。
+ *
+ * @author William.Peng
  */
 public interface UserMapper {
 
@@ -18,10 +17,12 @@ public interface UserMapper {
 
     List<User> selectAllUser();
 
-    User selectUserByName(String username);
+    User selectUserByName(@Param("userName") String userName);
 
-    Integer updatePasswordById(Integer userid , String password , String modifiedUser, Date modifiedTime);
+    Integer updatePasswordById(@Param("userId") Integer userId,
+                               @Param("password") String password,
+                               @Param("modifiedUser") String modifiedUser,
+                               @Param("modifiedTime") Date modifiedTime);
 
-    void insertManyUser(@Param("users") List<User> users);
-
+    int insertManyUser(@Param("users") List<User> users);
 }

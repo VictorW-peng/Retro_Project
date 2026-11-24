@@ -1,20 +1,16 @@
 package com.example.common;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
- * Unit test for simple App.
+ * 公共模块冒烟测试。
  */
-public class AppTest 
-{
-    /**
-     * Rigorous Test :-)
-     */
+class AppTest {
+
     @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
+    void shouldAnswerWithTrue() {
+        assertTrue(true);
     }
 }
